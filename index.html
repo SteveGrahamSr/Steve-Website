@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Personal About Me website for Steve Graham." />
+  <title>Steve Graham | About Me</title>
+
+  <style>
+    /* 
+      Steve Graham - One File Personal Website
+      Easy edit guide:
+      - Change colors in :root
+      - Update section text directly in the HTML
+      - Add project cards in the Projects section
+      - Update links in the Contact section
+    */
+
+    :root {
+      --navy: #0B1F3A;
+      --blue: #1E4E8C;
+      --light-blue: #EAF2FF;
+      --cream: #F8F5EF;
+      --white: #FFFFFF;
+      --text: #1F2937;
+      --muted: #64748B;
+      --border: rgba(11, 31, 58, 0.12);
+      --shadow: 0 18px 45px rgba(11, 31, 58, 0.12);
+      --radius: 22px;
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 88px 0;
+      scroll-margin-top: 82px;
+    }
+
+    .section:nth-of-type(even) {
+      background: var(--cream);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--blue);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: var(--blue);
+      border-radius: 999px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--navy);
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(2.45rem, 6vw, 5.2rem);
+      letter-spacing: -0.06em;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      letter-spacing: -0.04em;
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .lead {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
+      color: #334155;
+      max-width: 720px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      padding: 13px 20px;
+      border-radius: 999px;
+      font-weight: 800;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--navy);
+      border-color: var(--border);
+    }
+
+    .btn-light {
+      background: var(--light-blue);
+      color: var(--navy);
+    }
+
+    /* Header / Navigation */
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      color: var(--navy);
+      letter-spacing: -0.03em;
+    }
+
+    .logo-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--navy);
+      color: var(--white);
+      box-shadow: 0 10px 22px rgba(11, 31, 58, 0.18);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      display: inline-flex;
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: #334155;
+      font-size: 0.94rem;
+      font-weight: 700;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--light-blue);
+      color: var(--navy);
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--light-blue);
+      color: var(--navy);
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    /* Hero */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 96px 0 88px;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(30, 78, 140, 0.16), transparent 34%),
+        radial-gradient(circle at 85% 20%, rgba(248, 245, 239, 0.9), transparent 34%),
+        linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+      gap: 48px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .hero-card {
+      position: relative;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 34px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .portrait-placeholder {
+      min-height: 360px;
+      border-radius: 28px;
+      background:
+        linear-gradient(135deg, rgba(11, 31, 58, 0.96), rgba(30, 78, 140, 0.86)),
+        url("data:image/svg+xml,%3Csvg width='480' height='480' viewBox='0 0 480 480' xmlns='[w3.org](http://www.w3.org/2000/svg)'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.16)' stroke-width='2'%3E%3Ccircle cx='120' cy='120' r='90'/%3E%3Ccircle cx='360' cy='340' r='130'/%3E%3Cpath d='M0 300 C120 220 230 390 480 260'/%3E%3C/g%3E%3C/svg%3E");
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      text-align: center;
+      padding: 32px;
+    }
+
+    .portrait-placeholder span {
+      width: 150px;
+      height: 150px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      font-size: 3.2rem;
+      font-weight: 900;
+      margin: 0 auto 18px;
+    }
+
+    .hero-note {
+      margin-top: 18px;
+      padding: 18px;
+      background: var(--cream);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* Shared Cards */
+
+    .grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: 0 10px 28px rgba(11, 31, 58, 0.06);
+    }
+
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: var(--light-blue);
+      color: var(--navy);
+      font-size: 1.4rem;
+      margin-bottom: 18px;
+    }
+
+    .section-intro {
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 26px;
+      align-items: start;
+    }
+
+    .quote-card {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .quote-card p,
+    .quote-card h3 {
+      color: var(--white);
+    }
+
+    .quote-card p {
+      font-size: 1.15rem;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--light-blue);
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    /* Skills */
+
+    .skill {
+      margin-top: 18px;
+    }
+
+    .skill-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .bar {
+      height: 10px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: var(--value);
+      background: linear-gradient(90deg, var(--navy), var(--blue));
+      border-radius: 999px;
+    }
+
+    /* Projects */
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-tag {
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--cream);
+      color: var(--navy);
+      font-size: 0.82rem;
+      font-weight: 900;
+    }
+
+    .project-card::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      bottom: -40px;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: rgba(30, 78, 140, 0.08);
+    }
+
+    /* Contact */
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 30px;
+      padding: 34px;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-box h2,
+    .contact-box p {
+      color: var(--white);
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .contact-links a {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .contact-links a:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .footer {
+      padding: 28px 0;
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.78);
+      text-align: center;
+      font-size: 0.92rem;
+    }
+
+    .footer p {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .back-to-top {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 46px;
+      height: 46px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 1.1rem;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: var(--shadow);
+      z-index: 999;
+    }
+
+    .back-to-top.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    /* Mobile */
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .about-layout,
+      .grid-2,
+      .grid-3,
+      .contact-box {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 72px;
+      }
+
+      .portrait-placeholder {
+        min-height: 300px;
+      }
+
+      .contact-box {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .menu-toggle {
+        display: grid;
+        place-items: center;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 74px;
+        left: 16px;
+        right: 16px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 14px;
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 13px 14px;
+      }
+
+      .section {
+        padding: 66px 0;
+      }
+
+      .hero-actions,
+      .contact-links {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 440px) {
+      .container {
+        width: min(100% - 24px, var(--max-width));
+      }
+
+      .card,
+      .hero-card,
+      .contact-box {
+        padding: 22px;
+      }
+
+      .logo span:last-child {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="nav container" aria-label="Primary navigation">
+      <a href="#home" class="logo" aria-label="Steve Graham home">
+        <span class="logo-mark">SG</span>
+        <span>Steve Graham</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false">
+        ☰
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#life" class="nav-link">Life & Interests</a></li>
+        <li><a href="#work" class="nav-link">Work & Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Home -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Welcome</span>
+          <h1>Hi, I’m Steve Graham.</h1>
+          <p class="lead">
+            This is my personal “everything me” space — a warm, honest place to learn who I am,
+            what I care about, what I’m working on, and how to get in touch.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#contact">Contact Me</a>
+            <a class="btn btn-secondary" href="#projects">View Projects</a>
+          </div>
+        </div>
+
+        <div class="hero-card" aria-label="Steve Graham profile card">
+          <div class="portrait-placeholder">
+            <div>
+              <span>SG</span>
+              <h2 style="color: white; margin-bottom: 8px;">Grounded. Fair. Ready.</h2>
+              <p style="color: rgba(255,255,255,0.86);">
+                I like nice things, but I can do with very little. I enjoy what’s new, and I still
+                appreciate what’s stood the test of time.
+              </p>
+            </div>
+          </div>
+
+          <div class="hero-note">
+            Warm, friendly, tough but fair — and always interested in the next useful thing.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-intro">
+          <span class="eyebrow">About</span>
+          <h2>A little about me</h2>
+          <p class="lead">
+            I believe in being straightforward, doing things properly, and treating people with respect.
+            I’m easy to talk to, but I value honesty, effort, and common sense.
+          </p>
+        </div>
+
+        <div class="about-layout">
+          <div class="card quote-card">
+            <h3>My outlook</h3>
+            <p>
+              “Keep things honest. Stay grounded. Work hard. Enjoy good things without needing too much.”
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Who I am</h3>
+            <p>
+              I’m Steve Graham. This site is a simple home base for my life, interests, work, projects,
+              and future links. It is designed to grow over time as I add more about what I do and what I’m building.
+            </p>
+
+            <div class="pill-list" aria-label="Personal qualities">
+              <span class="pill">Warm</span>
+              <span class="pill">Friendly</span>
+              <span class="pill">Grounded</span>
+              <span class="pill">Honest</span>
+              <span class="pill">Tough but fair</span>
+              <span class="pill">Practical</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Life & Interests -->
+    <section class="section" id="life">
+      <div class="container">
+        <div class="section-intro">
+          <span class="eyebrow">Life & Interests</span>
+          <h2>The things that make life interesting</h2>
+          <p class="lead">
+            I appreciate a good mix of old and new — useful technology, honest conversations,
+            quality craftsmanship, simple pleasures, and experiences that feel real.
+          </p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card">
+            <div class="card-icon">⚓</div>
+            <h3>Grounded living</h3>
+            <p>
+              I like to keep life practical and meaningful. Nice things are great, but they matter most
+              when they serve a purpose or create good memories.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">🛠️</div>
+            <h3>Old meets new</h3>
+            <p>
+              I enjoy new ideas, tools, and possibilities, while still respecting older things that were
+              built well and built to last.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">🤝</div>
+            <h3>Good people</h3>
+            <p>
+              I value people who are honest, fair, dependable, and able to have a laugh while still getting
+              things done.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work & Skills -->
+    <section class="section" id="work">
+      <div class="container">
+        <div class="section-intro">
+          <span class="eyebrow">Work & Skills</span>
+          <h2>How I work</h2>
+          <p class="lead">
+            I bring a practical, steady approach to work. I like clear expectations, useful solutions,
+            and doing the job right without unnecessary fuss.
+          </p>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Strengths</h3>
+            <p>
+              These are qualities and skills that shape how I approach work, projects, and collaboration.
+              Edit these to match your exact experience.
+            </p>
+
+            <div class="skill">
+              <div class="skill-top">
+                <span>Communication</span>
+                <span>90%</span>
+              </div>
+              <div class="bar"><span style="--value: 90%;"></span></div>
+            </div>
+
+            <div class="skill">
+              <div class="skill-top">
+                <span>Problem Solving</span>
+                <span>85%</span>
+              </div>
+              <div class="bar"><span style="--value: 85%;"></span></div>
+            </div>
+
+            <div class="skill">
+              <div class="skill-top">
+                <span>Reliability</span>
+                <span>95%</span>
+              </div>
+              <div class="bar"><span style="--value: 95%;"></span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Work style</h3>
+            <p>
+              I like to understand the goal, get clear on what matters, and then make steady progress.
+              I’m comfortable with practical tasks, conversations, planning, learning, and adapting when needed.
+            </p>
+
+            <div class="pill-list">
+              <span class="pill">Dependable</span>
+              <span class="pill">Straightforward</span>
+              <span class="pill">Calm under pressure</span>
+              <span class="pill">Good listener</span>
+              <span class="pill">Hands-on</span>
+              <span class="pill">Solution-focused</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-intro">
+          <span class="eyebrow">Projects</span>
+          <h2>Projects and future links</h2>
+          <p class="lead">
+            This section is ready for work samples, personal projects, photos, links, case studies,
+            or anything else worth sharing.
+          </p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card project-card">
+            <span class="project-tag">Coming Soon</span>
+            <h3>Project One</h3>
+            <p>
+              Add a short description of a project, piece of work, hobby, business idea, or achievement here.
+            </p>
+          </article>
+
+          <article class="card project-card">
+            <span class="project-tag">Featured</span>
+            <h3>Project Two</h3>
+            <p>
+              Use this card for something you are proud of. You can add links, images, or details later.
+            </p>
+          </article>
+
+          <article class="card project-card">
+            <span class="project-tag">Future Link</span>
+            <h3>Project Three</h3>
+            <p>
+              Keep this space for future websites, social profiles, booking pages, or portfolio items.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="contact-box">
+          <div>
+            <span class="eyebrow" style="color: #BFD8FF;">Contact</span>
+            <h2>Get in touch with Steve</h2>
+            <p class="lead" style="color: rgba(255,255,255,0.86);">
+              Whether you want to connect, discuss work, hire me, share an opportunity, or book a call,
+              email is the best place to start.
+            </p>
+
+            <div class="contact-links">
+              <a class="btn" href="mailto:stevegee69@msn.com">Email Steve</a>
+              <a class="btn" href="#projects">See Projects</a>
+              <a class="btn" href="#home">Back Home</a>
+            </div>
+          </div>
+
+          <div class="card" style="background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.18);">
+            <h3 style="color: white;">Email</h3>
+            <p style="color: rgba(255,255,255,0.86); word-break: break-word;">
+              stevegee69@msn.com
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Steve Graham. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    const links = document.querySelectorAll(".nav-link");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", isOpen);
+      menuToggle.textContent = isOpen ? "×" : "☰";
+    });
+
+    links.forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.textContent = "☰";
+      });
+    });
+
+    // Active nav link on scroll
+    const sections = document.querySelectorAll("section[id]");
+
+    function setActiveLink() {
+      let currentSection = "home";
+
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 120;
+        if (window.scrollY >= sectionTop) {
+          currentSection = section.getAttribute("id");
+        }
+      });
+
+      links.forEach((link) => {
+        link.classList.toggle(
+          "active",
+          link.getAttribute("href") === "#" + currentSection
+        );
+      });
+    }
+
+    window.addEventListener("scroll", setActiveLink);
+
+    // Back to top button
+    const backToTop = document.getElementById("backToTop");
+
+    window.addEventListener("scroll", () => {
+      backToTop.classList.toggle("show", window.scrollY > 500);
+    });
+
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+
+    // Current year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Run once on page load
+    setActiveLink();
+  </script>
+</body>
+</html>
