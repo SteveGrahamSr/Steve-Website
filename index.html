@@ -447,6 +447,134 @@
       border-radius: 50%;
       background: rgba(30, 78, 140, 0.08);
     }
+    
+    /* Universe Chat */
+
+.chat-wrap {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.chat-box {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.chat-header {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.18), transparent 28%),
+    linear-gradient(135deg, var(--navy), var(--blue));
+  color: var(--white);
+  padding: 24px;
+}
+
+.chat-header h3 {
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+.chat-header p {
+  color: rgba(255,255,255,0.82);
+}
+
+.chat-messages {
+  height: 360px;
+  overflow-y: auto;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(30, 78, 140, 0.08), transparent 24%),
+    var(--cream);
+}
+
+.message {
+  max-width: 82%;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  font-size: 0.96rem;
+}
+
+.message.bot {
+  background: var(--white);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-bottom-left-radius: 6px;
+}
+
+.message.user {
+  margin-left: auto;
+  background: var(--navy);
+  color: var(--white);
+  border-bottom-right-radius: 6px;
+}
+
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px 18px 0;
+  background: var(--white);
+}
+
+.suggestion-btn {
+  border: 1px solid var(--border);
+  background: var(--light-blue);
+  color: var(--navy);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.suggestion-btn:hover {
+  transform: translateY(-1px);
+  background: #dcecff;
+}
+
+.chat-form {
+  display: flex;
+  gap: 10px;
+  padding: 18px;
+  background: var(--white);
+}
+
+.chat-form input {
+  flex: 1;
+  min-height: 48px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0 16px;
+  font: inherit;
+  outline: none;
+}
+
+.chat-form input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 4px rgba(30, 78, 140, 0.12);
+}
+
+.chat-form button {
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .chat-messages {
+    height: 320px;
+  }
+
+  .message {
+    max-width: 94%;
+  }
+
+  .chat-form {
+    flex-direction: column;
+  }
+}
+
 
     /* Contact */
 
@@ -625,7 +753,8 @@
         <li><a href="#life" class="nav-link">Life & Interests</a></li>
         <li><a href="#work" class="nav-link">Work & Skills</a></li>
         <li><a href="#projects" class="nav-link">Projects</a></li>
-        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#services" class="nav-link">Services</a>
+        </li><li><a href="#universe-chat" class="nav-link">Universe Chat</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
       </ul>
     </nav>
@@ -908,6 +1037,52 @@
   </div>
 </section>
 
+    <!-- Universe Chat -->
+<section class="section" id="universe-chat">
+  <div class="container">
+    <div class="section-intro">
+      <span class="eyebrow">Universe Chat</span>
+      <h2>Ask about the Universe</h2>
+      <p class="lead">
+        Explore quick answers about space, stars, planets, galaxies, black holes, and the mysteries of the cosmos.
+      </p>
+    </div>
+
+    <div class="chat-wrap">
+      <div class="chat-box">
+        <div class="chat-header">
+          <h3>Cosmic Chat Box</h3>
+          <p>Type a question or choose a topic below.</p>
+        </div>
+
+        <div class="chat-messages" id="chatMessages" aria-live="polite">
+          <div class="message bot">
+            Hi, I’m your Universe chat guide. Ask me about stars, planets, galaxies, black holes, time, light, or the Big Bang.
+          </div>
+        </div>
+
+        <div class="chat-suggestions" aria-label="Universe chat suggestions">
+          <button class="suggestion-btn" type="button" data-question="What is the universe?">Universe</button>
+          <button class="suggestion-btn" type="button" data-question="Tell me about black holes">Black holes</button>
+          <button class="suggestion-btn" type="button" data-question="How are stars born?">Stars</button>
+          <button class="suggestion-btn" type="button" data-question="What is a galaxy?">Galaxies</button>
+          <button class="suggestion-btn" type="button" data-question="What is the Big Bang?">Big Bang</button>
+        </div>
+
+        <form class="chat-form" id="chatForm">
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Ask about the Universe..."
+            autocomplete="off"
+            aria-label="Ask about the Universe"
+          />
+          <button class="btn btn-primary" type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- Contact -->
     <section class="section" id="contact">
@@ -1003,6 +1178,116 @@
         behavior: "smooth"
       });
     });
+
+    // Universe chat box
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
+const chatMessages = document.getElementById("chatMessages");
+const suggestionButtons = document.querySelectorAll(".suggestion-btn");
+
+const universeResponses = [
+  {
+    keywords: ["universe", "cosmos", "space"],
+    response:
+      "The universe is everything we know to exist: space, time, matter, energy, galaxies, stars, planets, and all the invisible stuff too, like dark matter and dark energy."
+  },
+  {
+    keywords: ["black hole", "black holes", "singularity"],
+    response:
+      "A black hole is a region of space where gravity is so strong that nothing, not even light, can escape once it crosses the event horizon."
+  },
+  {
+    keywords: ["star", "stars", "sun"],
+    response:
+      "Stars are giant balls of hot gas, mostly hydrogen and helium. They shine because nuclear fusion in their cores turns hydrogen into helium and releases energy."
+  },
+  {
+    keywords: ["planet", "planets", "earth", "mars", "jupiter"],
+    response:
+      "Planets are worlds that orbit stars. Some are rocky like Earth and Mars, while others are gas giants like Jupiter and Saturn."
+  },
+  {
+    keywords: ["galaxy", "galaxies", "milky way"],
+    response:
+      "A galaxy is a huge collection of stars, gas, dust, planets, and dark matter held together by gravity. Our galaxy is the Milky Way."
+  },
+  {
+    keywords: ["big bang", "beginning", "origin"],
+    response:
+      "The Big Bang is the leading explanation for how the universe began expanding from an extremely hot, dense state about 13.8 billion years ago."
+  },
+  {
+    keywords: ["dark matter", "dark energy"],
+    response:
+      "Dark matter appears to add extra gravity that helps hold galaxies together. Dark energy appears to drive the accelerating expansion of the universe."
+  },
+  {
+    keywords: ["time", "relativity"],
+    response:
+      "Time is connected to space as spacetime. Einstein’s relativity showed that time can pass differently depending on speed and gravity."
+  },
+  {
+    keywords: ["light", "speed of light"],
+    response:
+      "Light travels at about 186,000 miles per second, or about 300,000 kilometers per second, in a vacuum. Because space is so large, we often measure cosmic distances in light-years."
+  },
+  {
+    keywords: ["alien", "aliens", "life"],
+    response:
+      "Scientists have not confirmed alien life yet, but the universe is so vast that many researchers think simple life may exist somewhere beyond Earth."
+  }
+];
+
+function addChatMessage(text, sender) {
+  const message = document.createElement("div");
+  message.className = "message " + sender;
+  message.textContent = text;
+  chatMessages.appendChild(message);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function getUniverseResponse(question) {
+  const cleanedQuestion = question.toLowerCase();
+
+  const match = universeResponses.find((item) =>
+    item.keywords.some((keyword) => cleanedQuestion.includes(keyword))
+  );
+
+  if (match) {
+    return match.response;
+  }
+
+  return "That’s a fascinating space question. Try asking about black holes, stars, planets, galaxies, dark matter, time, light, aliens, or the Big Bang.";
+}
+
+function handleUniverseQuestion(question) {
+  const trimmedQuestion = question.trim();
+
+  if (!trimmedQuestion) {
+    return;
+  }
+
+  addChatMessage(trimmedQuestion, "user");
+  chatInput.value = "";
+
+  setTimeout(() => {
+    addChatMessage(getUniverseResponse(trimmedQuestion), "bot");
+  }, 450);
+}
+
+if (chatForm && chatInput && chatMessages) {
+  chatForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    handleUniverseQuestion(chatInput.value);
+  });
+}
+
+suggestionButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    handleUniverseQuestion(button.dataset.question);
+  });
+});
+
 
     // Current year
     document.getElementById("year").textContent = new Date().getFullYear();
